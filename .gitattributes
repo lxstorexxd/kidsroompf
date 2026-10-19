@@ -1,0 +1,8 @@
+* text=auto eol=lf
+
+*.ps1 -text
+*.manifest -text
+*.svg -text
+
+*.ico binary
+*.syso binary

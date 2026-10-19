@@ -1,0 +1,48 @@
+<!doctype html>
+<!-- Правится вручную; обновление агента этот файл не перезаписывает.
+     Список камер: GET /cameras.json, поток: /hls/<id>/index.m3u8 -->
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Трансляция детской</title>
+  <link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="loader" id="loader">
+    <div class="loader-badge">
+      <img src="icons/camera-icon.svg" alt="" class="loader-icon">
+    </div>
+    <div class="loader-title">Трансляция детской</div>
+    <div class="loader-note" id="loaderNote" hidden></div>
+  </div>
+
+  <header class="topbar">
+    <div class="brand">
+      <img src="icons/favicon.svg" alt="" class="brand-icon">
+      <span class="brand-title">Трансляция детской</span>
+    </div>
+
+    <div class="cam-dropdown" id="camDropdown" hidden>
+      <button class="cam-dropdown-toggle" id="camDropdownToggle" aria-haspopup="true" aria-expanded="false">
+        <img src="icons/camera-icon.svg" alt="" class="cam-dropdown-icon">
+        <svg class="cam-dropdown-caret" viewBox="0 0 12 8" width="12" height="8"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <ul class="cam-dropdown-menu" id="camDropdownMenu"></ul>
+    </div>
+  </header>
+
+  <main>
+    <div class="video-wrapper">
+      <video class="video-frame" id="video" playsinline muted autoplay controls></video>
+      <div class="spinner" id="spinner"></div>
+      <div class="error" id="error" hidden></div>
+    </div>
+  </main>
+
+  <script src="hls.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

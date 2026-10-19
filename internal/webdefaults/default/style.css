@@ -1,0 +1,113 @@
+/* Светлая шапка с логотипом и выпадающим списком камер, чёрная видео-сцена
+   ниже. Файл правится вручную. */
+
+* { box-sizing: border-box; }
+
+/* Браузерное правило [hidden] { display: none } слабее любого класса, поэтому
+   элементы с собственным display остались бы видимыми. Задаём явно. */
+[hidden] { display: none !important; }
+
+html, body {
+  margin: 0; padding: 0; height: 100%;
+  background: #000; overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* --- Шапка --- */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 3rem; padding: 0 1rem; background: #fff; color: #222;
+  border-bottom: 1px solid #e5e5e5; position: relative; z-index: 5;
+}
+.brand { display: flex; align-items: center; gap: 0.5rem; min-width: 0; }
+.brand-icon { width: 28px; height: 20px; flex-shrink: 0; }
+.brand-title {
+  font-size: 15px; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #222;
+}
+
+/* --- Выпадающий список камер --- */
+.cam-dropdown { position: relative; flex-shrink: 0; }
+.cam-dropdown-toggle {
+  display: flex; align-items: center; gap: 0.4rem;
+  background: none; border: none; cursor: pointer; padding: 0.4rem; color: #222;
+}
+.cam-dropdown-toggle:hover { color: #FF0000; }
+.cam-dropdown-icon { width: 22px; height: 18px; }
+.cam-dropdown-caret { color: #222; transition: transform 0.15s ease; }
+.cam-dropdown.open .cam-dropdown-caret { transform: rotate(180deg); }
+
+.cam-dropdown-menu {
+  display: none;
+  position: absolute; right: 0; top: calc(100% + 4px);
+  min-width: 160px; margin: 0; padding: 0.3rem 0; list-style: none;
+  background: #fff; border: 1px solid #e5e5e5; border-radius: 4px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+.cam-dropdown.open .cam-dropdown-menu { display: block; }
+.cam-dropdown-item {
+  display: block; padding: 0.5rem 1rem; color: #222; text-decoration: none;
+  font-size: 14px; white-space: nowrap; cursor: pointer;
+}
+.cam-dropdown-item:hover { background: #f5f5f5; }
+.cam-dropdown-item.active { color: #FF0000; font-weight: 700; }
+
+/* --- Видео-сцена --- */
+main { position: relative; height: calc(100% - 3rem); background: #000; }
+.video-wrapper { position: relative; height: 100%; }
+.video-frame {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  border: 0; background: #000; object-fit: contain;
+}
+
+/* Крутилка поверх видео, пока поток буферизуется */
+.spinner {
+  position: absolute; top: 50%; left: 50%;
+  width: 54px; height: 54px; margin: -27px 0 0 -27px;
+  border: 4px solid rgba(255, 255, 255, 0.18);
+  border-top-color: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  pointer-events: none;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.error {
+  position: absolute; left: 50%; bottom: 68px; transform: translateX(-50%);
+  max-width: 90%; padding: 10px 16px; border-radius: 4px;
+  background: rgba(0, 0, 0, 0.72); color: #fff; font-size: 14px; text-align: center;
+}
+
+/* --- Экран загрузки: логотип и название точки на белом фоне --- */
+.loader {
+  position: fixed; inset: 0; z-index: 20;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.25rem;
+  background: #fff; transition: opacity .5s ease, visibility .5s ease;
+}
+.loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader-badge {
+  width: 110px; height: 110px; border-radius: 50%; background: #FF4D4D;
+  display: flex; align-items: center; justify-content: center;
+  animation: loader-pulse 2s ease-in-out infinite;
+}
+.loader-icon { width: 42%; filter: brightness(0) invert(1); }
+.loader-title {
+  font-size: 22px; font-weight: 700; color: #333; text-align: center;
+  text-transform: uppercase; letter-spacing: 0.02em; max-width: 90vw;
+}
+.loader-note {
+  max-width: 420px; padding: 0 1rem;
+  color: #888; font-size: 14px; line-height: 1.5; text-align: center;
+}
+@keyframes loader-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-badge { animation: none; }
+  .spinner { animation-duration: 2.4s; }
+}
+
+@media (max-width: 390px) {
+  .brand-title { font-size: 12px; }
+  .loader-badge { width: 84px; height: 84px; }
+  .loader-title { font-size: 17px; }
+}

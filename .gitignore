@@ -1,0 +1,5 @@
+/dist/
+
+*.syso
+
+web.bak-*
